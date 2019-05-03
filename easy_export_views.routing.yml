@@ -1,0 +1,6 @@
+easy_export_views.export:
+  path: '/easy_export_views/{view}/{display}' 
+  defaults: 
+    _controller: '\Drupal\easy_export_views\Controller\EasyExportViews::export'
+  requirements: 
+    _permission: 'access content'

@@ -1,0 +1,6 @@
+name: Easy Export Views
+type: module
+description: Export Views Easily
+core: 8.x
+package: Views
+dependencies:
