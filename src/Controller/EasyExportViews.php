@@ -241,7 +241,6 @@ class EasyExportViews extends ControllerBase {
 			foreach ($query_tables as $table) {
 				if ( $table['alias']) {
 					$aux_table = $this->view->query->getTableInfo($table['alias']);
-
 					if ($aux_table['table'] && ! in_array($aux_table['table'], $added)) {
 						$main_table = $aux_table['table'];
 						$added [] = $aux_table['table'];
@@ -254,7 +253,9 @@ class EasyExportViews extends ControllerBase {
 							$tables [$aux_table['table']]['condition'] = sprintf('%s.%s = %s.%s', $aux_table['join']->leftTable, $aux_table['join']->leftField, $aux_table['alias'], $aux_table['join']->field);
 							if ($aux_table['join']->extra) {
 								foreach ($aux_table['join']->extra as $key => $value) {
-									$tables [$aux_table['table']]['condition'] .= sprintf(" AND %s.%s = '%s'", $aux_table['alias'], $value['field'], $value['value']);
+									if (isset($value['value'])) {
+										$tables [$aux_table['table']]['condition'] .= sprintf(" AND %s.%s = '%s'", $aux_table['alias'], $value['field'], $value['value']);
+									}
 								}
 							}							
 						}						
