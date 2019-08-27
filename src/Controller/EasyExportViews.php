@@ -13,7 +13,7 @@ use Drupal\Core\Database\DatabaseNotFoundException;
 use Drupal\Core\Language\LanguageInterface;
 
 /**
- * An example controller.
+ * Easy Export Views Controller
  */
 class EasyExportViews extends ControllerBase {
 
@@ -88,6 +88,9 @@ class EasyExportViews extends ControllerBase {
 	 */
 	protected $headers = [];
 
+
+	protected $ignoredTables = [];
+
 	/**
 	 * Consulta sql completa
 	 * 
@@ -116,7 +119,11 @@ class EasyExportViews extends ControllerBase {
 	protected $view;
 
 
-	/**
+	function __construct() {
+      $this->ignoredTables [] = 'views';
+  }
+
+    /**
 	 * Función que exporta los usuarios de una vista, finalmente se hace un return para que no muestre nada después de la descarga.
 	 * 
 	 * @param  String $view    Nombre de la vista
@@ -281,7 +288,7 @@ class EasyExportViews extends ControllerBase {
 
 		// tablas para los filtros
 		foreach ($this->view->filter as $key => $value) {
-			if ( $value->table && ! in_array($value->table, $added) ) {
+			if ( $value->table && ! in_array($value->table, $added) && ! in_array($value->table, $this->ignoredTables) ) {
 				//$tables [$value->table] = sprintf('LEFT JOIN %s ON users.uid = %s.entity_id', $value->table, $value->table);
 				$added [] = $value->table;
 				$tables [$value->table] = Array();
